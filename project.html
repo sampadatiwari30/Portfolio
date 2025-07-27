@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sampada Tiwari - Projects</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-black: #000000;
+            --deep-gray: #1a1a1a;
+            --dark-blue: #0a0a2e;
+            --neon-blue: #0066ff;
+            --accent-aqua: #00d4ff;
+            --magenta: #ff00ff;
+            --text-white: #ffffff;
+            --text-gray: #b8b8b8;
+            --text-light-gray: #e0e0e0;
+            --gradient-primary: linear-gradient(135deg, #0066ff, #00d4ff);
+            --gradient-secondary: linear-gradient(135deg, #1a1a1a, #2d2d3a);
+            --gradient-accent: linear-gradient(135deg, #00d4ff, #ff00ff);
+            --gradient-navbar: linear-gradient(135deg, rgba(10, 10, 46, 0.95), rgba(26, 26, 46, 0.95));
+            --card-gradient: linear-gradient(145deg, rgba(26, 26, 46, 0.8), rgba(45, 45, 58, 0.6));
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #0a0a2e 50%, #1a1a1a 100%);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Fixed Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--gradient-navbar);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: linear-gradient(135deg, rgba(10, 10, 46, 0.98), rgba(26, 26, 46, 0.98));
+            box-shadow: 0 2px 20px rgba(0, 102, 255, 0.15);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-link {
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-aqua);
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-white);
+            margin: 3px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Header Section */
+        .header {
+            padding-top: 120px;
+            padding-bottom: 4rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1) 0%, rgba(0, 212, 255, 0.05) 100%);
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .page-title {
+            font-size: 4rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-light-gray);
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Projects Section */
+        .projects-section {
+            padding: 4rem 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        /* Video Card Styles */
+        .video-card {
+            background: var(--card-gradient);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .video-card:hover::before {
+            left: 100%;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0, 212, 255, 0.2);
+            border-color: rgba(0, 212, 255, 0.4);
+        }
+
+        .video-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .video-card:hover.visible {
+            transform: translateY(-10px);
+        }
+
+        .card-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-aqua);
+            margin-bottom: 0.8rem;
+        }
+
+        .card-description {
+            color: var(--text-light-gray);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Flexible Video Container - Adapts to any video size */
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s ease;
+            background: var(--deep-gray);
+        }
+
+        .video-container:hover {
+            border-color: var(--accent-aqua);
+            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Responsive video wrapper */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* Default 16:9 aspect ratio */
+        }
+
+        .video-container video,
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 13px;
+            object-fit: cover; /* Ensures video fits properly */
+        }
+
+        /* For direct video uploads */
+        .video-container video {
+            background: var(--deep-gray);
+        }
+
+        /* Loading placeholder */
+        .video-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .card-footer {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tech-tag {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-aqua);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            background: rgba(0, 212, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .project-link {
+            color: var(--text-white);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .project-link:hover {
+            background: var(--accent-aqua);
+            color: var(--primary-black);
+            border-color: var(--accent-aqua);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-black);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        .footer p {
+            color: var(--text-gray);
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        .heart {
+            color: #ff0000;
+            animation: heartbeat 1.8s ease-in-out infinite;
+            margin-left: 8px;
+            font-size: 1.4rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        /* Responsive Design */
+        @media (min-width: 1024px) {
+            .projects-grid {
+                gap: 4rem;
+            }
+            
+            .video-card {
+                padding: 3rem;
+            }
+
+            .card-footer {
+                justify-content: space-between;
+            }
+
+            .tech-stack {
+                justify-content: flex-start;
+            }
+
+            .project-links {
+                justify-content: flex-end;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 80px;
+                flex-direction: column;
+                background: var(--gradient-navbar);
+                backdrop-filter: blur(20px);
+                width: 100%;
+                text-align: center;
+                transition: all 0.3s ease;
+                padding: 2rem 0;
+                border-top: 1px solid rgba(0, 212, 255, 0.2);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                margin: 1.5rem 0;
+            }
+
+            .page-title {
+                font-size: 2.8rem;
+            }
+
+            .projects-section {
+                padding: 2rem 1rem;
+            }
+
+            .video-card {
+                padding: 2rem;
+            }
+
+            .card-title {
+                font-size: 1.6rem;
+            }
+
+            .card-description {
+                font-size: 1rem;
+            }
+
+            .card-footer {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .project-links {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .tech-stack {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.1rem;
+                padding: 0 1rem;
+            }
+
+            .video-card {
+                padding: 1.5rem;
+            }
+
+            .card-title {
+                font-size: 1.4rem;
+            }
+
+            .card-description {
+                font-size: 0.95rem;
+            }
+
+            .tech-tag {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .project-link {
+                flex: 1;
+                text-align: center;
+                font-size: 0.9rem;
+                padding: 0.7rem 1rem;
+            }
+
+            .project-links {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--deep-gray);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-aqua);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-blue);
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">Sampada</div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About Me</a></li>
+                <li><a href="contactme.html" class="nav-link">Contact Me</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="header">
+        <h1 class="page-title">Projects</h1>
+        <p class="page-subtitle">Explore my latest work and creative solutions in web development and design</p>
+    </header>
+
+    <!-- Projects Section -->
+    <section class="projects-section">
+        <div class="container">
+            <div class="projects-grid">
+                
+                <!-- Project 1 --->
+                <div class="video-card">
+                    <div class="card-header">
+                        <h3 class="card-title">HearMe Platform</h3>
+                        <p class="card-description">A fully responsive e-commerce platform designed to assist the deaf and mute community.
+                             Developed through collaborative teamwork, with a strong focus on intuitive frontend design to ensure accessibility and user-friendly navigation.</p>
+                    </div>
+                    <div class="video-container">
+                        <div class="video-wrapper">
+                            <iframe src="hereme.mp4" 
+                                    title="Hereme website" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 - -->
+                <div class="video-card">
+                    <div class="card-header">
+                        <h3 class="card-title">कला.ficial</h3>
+                        <p class="card-description">A virtual art exhibition platform designed to showcase artworks with modern UI, fluid animations, and real-time global exhibition notifications. 
+                            Developed as a team project, where I contributed as the Frontend Developer, ensuring an immersive and responsive experience for art enthusiasts worldwide.</p>
+                    </div>
+                    <div class="video-container">
+                        <div class="video-wrapper">
+                            <iframe src="final year project.mp4" 
+                                    title="Portfolio Website Demo" 
+                                    allow="autoplay; fullscreen; picture-in-picture" 
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 3 - -->
+                <div class="video-card">
+                    <div class="card-header">
+                        <h3 class="card-title">NASA Space Challenge(Hack Celestia)</h3>
+                        <p class="card-description">Built during the NASA Space Apps Challenge, 
+                            this collaborative task manager was designed to help teams explore the solar system and planetary data through an interactive workflow.</p>
+                    </div>
+                    <div class="video-container">
+                        <div class="video-wrapper">
+                            <iframe src="nasa.mp4" 
+                                    title="nasa" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 --->
+                <div class="video-card">
+                    <div class="card-header">
+                        <h3 class="card-title">DeshDarshan(ongoing)</h3>
+                        <p class="card-description">A culturally rich web platform that showcases India’s vibrant heritage through detailed insights into each state and union territory. It highlights festivals,
+                             food, art, famous places, and national symbols, offering users an immersive journey across India’s diverse traditions.</p>
+                    </div>
+                    <div class="video-container">
+                        <div class="video-wrapper">
+                            <iframe src="deshdarshan.mp4" 
+                                    title="deshdarshan" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Made by Sampada Tiwari <span class="heart">❤️</span></p>
+    </footer>
+
+    <script>
+        // Mobile hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 100;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effects and active link highlighting
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            const sections = document.querySelectorAll('section, header');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            // Add scrolled class to navbar
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            // Highlight active section
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id') || 'home';
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Scroll reveal animations for video cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 200);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all video cards for animation
+        document.querySelectorAll('.video-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // Keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // Enhanced video card interactions
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if (card.classList.contains('visible')) {
+                    card.style.transform = 'translateY(-10px) scale(1.01)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                if (card.classList.contains('visible')) {
+                    card.style.transform = 'translateY(0) scale(1)';
+                }
+            });
+        });
+
+        // Video loading error handling
+        document.querySelectorAll('video').forEach(video => {
+            video.addEventListener('error', function() {
+                const container = this.closest('.video-container');
+                const loading = container.querySelector('.video-loading');
+                if (loading) {
+                    loading.textContent = 'Video failed to load';
+                    loading.style.color = 'var(--text-gray)';
+                }
+            });
+
+            video.addEventListener('loadstart', function() {
+                const container = this.closest('.video-container');
+                const loading = container.querySelector('.video-loading');
+                if (loading) {
+                    loading.textContent = 'Loading video...';
+                }
+            });
+
+            video.addEventListener('canplay', function() {
+                const container = this.closest('.video-container');
+                const loading = container.querySelector('.video-loading');
+                if (loading) {
+                    loading.style.display = 'none';
+                }
+            });
+        });
+
+        // Smooth page load
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+
+        // Initialize page with smooth entrance
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease-in-out';
+    </script>
+</body>
+</html>
