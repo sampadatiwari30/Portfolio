@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me - Sampada Tiwari</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 20%, #16213e 40%, #0f3460 60%, #2d1b69 80%, #4a148c 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(0,212,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 30px;
+            padding: 4rem 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-heading {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #f5f5f5;
+            margin-bottom: 3rem;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            position: relative;
+            z-index: 1;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            }
+            to {
+                text-shadow: 0 0 40px rgba(255, 0, 255, 0.6);
+            }
+        }
+
+        .main-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, #00d4ff, #ff00ff, #00d4ff);
+            transform: translateX(-50%);
+            border-radius: 2px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .contact-info {
+            margin: 3rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .email-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .email-section:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 212, 255, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .email-label {
+            font-size: 1.2rem;
+            color: #d0d0d0;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .email-address {
+            font-size: 1.4rem;
+            color: #00d4ff;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+        }
+
+        .email-address:hover {
+            color: #ffffff;
+            background: rgba(0, 212, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .social-section {
+            margin-bottom: 3rem;
+        }
+
+        .social-title {
+            font-size: 1.3rem;
+            color: #e0e0e0;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
+        }
+
+        .social-link.linkedin {
+            border-color: rgba(0, 119, 181, 0.3);
+        }
+
+        .social-link.linkedin:hover {
+            background: rgba(0, 119, 181, 0.2);
+            border-color: #0077b5;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 119, 181, 0.3);
+        }
+
+        .social-link.instagram {
+            border-color: rgba(225, 48, 108, 0.3);
+        }
+
+        .social-link.instagram:hover {
+            background: linear-gradient(45deg, rgba(225, 48, 108, 0.2), rgba(253, 29, 29, 0.2), rgba(245, 96, 64, 0.2));
+            border-color: #e1306c;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(225, 48, 108, 0.3);
+        }
+
+        .social-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover .social-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .thank-you-message {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #f0f0f0;
+            margin: 3rem 0 2rem 0;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #d0d0d0;
+            font-weight: 300;
+        }
+
+        .footer .heart {
+            color: #ff4757;
+            font-size: 1rem;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 50%, 100% {
+                transform: scale(1);
+            }
+            25%, 75% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 3rem 2rem;
+                margin: 1rem;
+            }
+
+            .main-heading {
+                font-size: 2.8rem;
+            }
+
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+
+            .social-link {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+
+            .email-address {
+                font-size: 1.2rem;
+            }
+
+            .thank-you-message {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+
+            .container {
+                padding: 2.5rem 1.5rem;
+                border-radius: 20px;
+            }
+
+            .main-heading {
+                font-size: 2.2rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .email-section {
+                padding: 1.5rem;
+            }
+
+            .email-address {
+                font-size: 1.1rem;
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+
+            .social-link {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            .social-icon {
+                font-size: 1.3rem;
+            }
+
+            .thank-you-message {
+                font-size: 1.2rem;
+                margin: 2rem 0 1.5rem 0;
+            }
+
+            .footer {
+                font-size: 0.8rem;
+                padding: 0.8rem;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .email-address:focus,
+        .social-link:focus {
+            outline: 2px solid #00d4ff;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-heading">Contact Me</h1>
+        
+        <div class="contact-info">
+            <div class="email-section">
+                <div class="email-label">My Email ID:</div>
+                <a href="mailto:sampadatiwari54@gmail.com" class="email-address">
+                    <i class="fas fa-envelope"></i>
+                    sampadatiwari54@gmail.com
+                </a>
+            </div>
+
+            <div class="social-section">
+                <div class="social-title">Connect with me on:</div>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/sampada-tiwari-217123257" target="_blank" rel="noopener noreferrer" class="social-link linkedin">
+                        <i class="fab fa-linkedin social-icon"></i>
+                        LinkedIn Profile
+                    </a>
+                    <a href="https://www.instagram.com/sampadatiwari29?igsh=MXF5ZDVzMWwyemIyag==" target="_blank" rel="noopener noreferrer" class="social-link instagram">
+                        <i class="fab fa-instagram social-icon"></i>
+                        Instagram Profile
+                    </a>
+                    <a href="t.me/Sampadatiwari" target="_blank" rel="noopener noreferrer" class="social-link telegram">
+                        <i class="fab fa-telegram-plane social-icon"></i>
+                          Telegram Profile
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="thank-you-message">
+            Thank you! Have a great day
+        </div>
+    </div>
+
+    <script>
+        // Add smooth entrance animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.container');
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(50px)';
+            
+            setTimeout(() => {
+                container.style.transition = 'all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 100);
+        });
+
+        // Add click animation for email
+        document.querySelector('.email-address').addEventListener('click', function(e) {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            }, 100);
+        });
+
+        // Add click animation for social links
+        document.querySelectorAll('.social-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                this.style.transform = 'translateY(-5px) scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-5px) scale(1.05)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-5px) scale(1.05)';
+                    }, 150);
+                }, 100);
+            });
+        });
+
+        // Add floating particles effect
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.width = Math.random() * 4 + 2 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.background = `rgba(0, 212, 255, ${Math.random() * 0.5 + 0.2})`;
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '0';
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = window.innerHeight + 'px';
+            
+            document.body.appendChild(particle);
+            
+            const animation = particle.animate([
+                { 
+                    transform: 'translateY(0px) translateX(0px)', 
+                    opacity: 1 
+                },
+                { 
+                    transform: `translateY(-${window.innerHeight + 100}px) translateX(${Math.random() * 200 - 100}px)`, 
+                    opacity: 0 
+                }
+            ], {
+                duration: Math.random() * 4000 + 3000,
+                easing: 'linear'
+            });
+            
+            animation.onfinish = () => particle.remove();
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 500);
+
+        // Add mouse move effect for container
+        document.addEventListener('mousemove', function(e) {
+            const container = document.querySelector('.container');
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            const moveX = x * 0.01;
+            const moveY = y * 0.01;
+            
+            container.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+
+        // Reset container position when mouse leaves
+        document.addEventListener('mouseleave', function() {
+            const container = document.querySelector('.container');
+            container.style.transform = 'translate(0, 0)';
+        });
+
+        // Add keyboard navigation support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-navigation');
+        });
+
+        // Copy email to clipboard functionality
+        document.querySelector('.email-address').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Copy email to clipboard
+            navigator.clipboard.writeText('sampadatiwari54@gmail.com').then(function() {
+                // Show temporary notification
+                const notification = document.createElement('div');
+                notification.textContent = 'Email copied to clipboard!';
+                notification.style.position = 'fixed';
+                notification.style.top = '20px';
+                notification.style.right = '20px';
+                notification.style.background = 'rgba(0, 212, 255, 0.9)';
+                notification.style.color = '#000';
+                notification.style.padding = '1rem 2rem';
+                notification.style.borderRadius = '10px';
+                notification.style.zIndex = '9999';
+                notification.style.fontWeight = '600';
+                notification.style.animation = 'fadeInUp 0.3s ease';
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'fadeOut 0.3s ease forwards';
+                    setTimeout(() => notification.remove(), 300);
+                }, 2000);
+            }).catch(function() {
+                // Fallback: open email client
+                window.location.href = 'mailto:sampadatiwari54@gmail.com';
+            });
+        });
+
+        // Add CSS for notification animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                to {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

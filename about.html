@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-black: #000000;
+            --deep-gray: #1a1a1a;
+            --dark-blue: #0a0a2e;
+            --neon-blue: #0066ff;
+            --accent-aqua: #00d4ff;
+            --magenta: #ff00ff;
+            --text-white: #ffffff;
+            --text-gray: #b8b8b8;
+            --text-light-gray: #e0e0e0;
+            --gradient-primary: linear-gradient(135deg, #0066ff, #00d4ff);
+            --gradient-secondary: linear-gradient(135deg, #1a1a1a, #2d2d3a);
+            --gradient-accent: linear-gradient(135deg, #00d4ff, #ff00ff);
+            --gradient-navbar: linear-gradient(135deg, rgba(10, 10, 46, 0.95), rgba(26, 26, 46, 0.95));
+            --card-gradient: linear-gradient(145deg, rgba(26, 26, 46, 0.8), rgba(45, 45, 58, 0.6));
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #0a0a2e 50%, #1a1a1a 100%);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Fixed Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--gradient-navbar);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: linear-gradient(135deg, rgba(10, 10, 46, 0.98), rgba(26, 26, 46, 0.98));
+            box-shadow: 0 2px 20px rgba(0, 102, 255, 0.15);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-link {
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-aqua);
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-white);
+            margin: 3px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        /* Card Styles */
+        .about-card {
+            background: var(--card-gradient);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .about-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .education-item,
+        .achievement-item,
+        .extracurricular-item {
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px;
+            border-left: 4px solid var(--accent-aqua);
+        }
+
+        .education-item:last-child,
+        .achievement-item:last-child,
+        .extracurricular-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .item-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--accent-aqua);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .item-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light-gray);
+            margin-bottom: 0.3rem;
+            font-weight: 500;
+        }
+
+        .item-duration {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .item-description {
+            color: var(--text-light-gray);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .item-description ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .item-description li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .item-description li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-aqua);
+            font-weight: bold;
+        }
+
+        /* Skills Card */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .skill-item {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 1.2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            background: rgba(0, 212, 255, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .skill-item i {
+            font-size: 2rem;
+            color: var(--accent-aqua);
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-name {
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-black);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        .footer p {
+            color: var(--text-gray);
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        .heart {
+            color: #ff6b6b;
+            animation: heartbeat 1.8s ease-in-out infinite;
+            margin-left: 8px;
+            font-size: 1.4rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 80px;
+                flex-direction: column;
+                background: var(--gradient-navbar);
+                backdrop-filter: blur(20px);
+                width: 100%;
+                text-align: center;
+                transition: all 0.3s ease;
+                padding: 2rem 0;
+                border-top: 1px solid rgba(0, 212, 255, 0.2);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                margin: 1.5rem 0;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .about-card {
+                padding: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .card-title {
+                font-size: 2rem;
+            }
+
+            .item-title {
+                font-size: 1.2rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .about-card {
+                padding: 1.5rem;
+            }
+
+            .card-title {
+                font-size: 1.8rem;
+            }
+
+            .education-item,
+            .achievement-item,
+            .extracurricular-item {
+                padding: 1rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">Sampada</div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="project.html" class="nav-link">Project</a></li>
+                <li><a href="contactme.html" class="nav-link">Contact Me</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">About Me</h1>
+
+            <!-- Education Card -->
+            <div class="about-card" id="education">
+                <h2 class="card-title">Education</h2>
+                
+                <div class="education-item">
+                    <div class="item-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        Master of Computer Applications (MCA)
+                    </div>
+                    <div class="item-subtitle">Banasthali Vidyapith, Rajasthan</div>
+                    <div class="item-duration">2024 – Present</div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Pursuing post-graduate studies with a focus on web development, user interface design, and application structure.</li>
+                            <li>Worked in a team-based project during 2nd semester and contributed as the Frontend Developer, designing interactive and responsive pages.</li>
+                            <li>Actively participating in tech-focused coursework, improving design thinking and development planning skills.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="education-item">
+                    <div class="item-title">
+                        <i class="fas fa-laptop-code"></i>
+                        Bachelor of Computer Applications (BCA)
+                    </div>
+                    <div class="item-subtitle">Banasthali Vidyapith, Rajasthan</div>
+                    <div class="item-duration">2021 – 2024</div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Completed comprehensive coursework in computer fundamentals, application logic, and software concepts.</li>
+                            <li>In the final year, collaborated with a team to develop a full-fledged project, where I handled the entire frontend development, ensuring clean layout, responsiveness, and user-friendly design.</li>
+                            <li>Engaged in hands-on projects that encouraged creativity, teamwork, and real-world problem solving.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills Card -->
+            <div class="about-card" id="skills">
+                <h2 class="card-title">Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <i class="fab fa-html5"></i>
+                        <div class="skill-name">HTML5</div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-css3-alt"></i>
+                        <div class="skill-name">CSS3</div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-js-square"></i>
+                        <div class="skill-name">JavaScript</div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-bootstrap"></i>
+                        <div class="skill-name">Bootstrap</div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-code"></i>
+                        <div class="skill-name">C with DSA</div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-cogs"></i>
+                        <div class="skill-name">Software Engineering</div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-palette"></i>
+                        <div class="skill-name">Multimedia & Web Design</div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-js-square"></i>
+                        <div class="skill-name">React.js</div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-code"></i>
+                        <div class="skill-name">PHP</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Extra Curricular Card -->
+            <div class="about-card" id="extracurricular">
+                <h2 class="card-title">Extra Curricular</h2>
+                
+                <div class="extracurricular-item">
+                    <div class="item-title">
+                        <i class="fas fa-certificate"></i>
+                        Certificate Course in French
+                    </div>
+                    <div class="item-subtitle">Banasthali Vidyapith, Rajasthan</div>
+                    <div class="item-duration">2022 – 2023</div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Developed a foundational understanding of the French language, including pronunciation, everyday vocabulary, and sentence structure used in common conversations.</li>
+                            <li>Learned to express personal and basic information by using salutations, describing oneself and others, and talking about countries and nationalities in French.</li>
+                            <li>Gained clarity on essential grammar concepts such as the use of articles, different verb tenses, and imperative sentence formation to build accurate and simple sentences.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="extracurricular-item">
+                    <div class="item-title">
+                        <i class="fas fa-scroll"></i>
+                        Diploma in French
+                    </div>
+                    <div class="item-subtitle">Banasthali Vidyapith, Rajasthan</div>
+                    <div class="item-duration">2024 – 2025</div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Advancing communication skills through interactive speaking exercises, role plays, and structured dialogues aimed at achieving fluency in day-to-day French communication.</li>
+                            <li>Practicing formal writing techniques, including paragraph construction, essay writing, and summarizing information in French with clarity and coherence.</li>
+                            <li>Building confidence in communicative French, focusing on clarity, cultural context, and linguistic accuracy to enhance both personal and professional language proficiency.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements Card -->
+            <div class="about-card" id="achievements">
+                <h2 class="card-title">Achievements</h2>
+                
+                <div class="achievement-item">
+                    <div class="item-title">
+                        <i class="fas fa-trophy"></i>
+                        Winner – Hack Celestia 2023
+                    </div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Secured 1st position in Hack Celestia 2023, a competitive national-level hackathon.</li>
+                            <li>Developed an innovative tech solution within a collaborative team environment.</li>
+                            <li>Appreciated for creative thinking, UI development, and problem-solving skills.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="achievement-item">
+                    <div class="item-title">
+                        <i class="fas fa-globe"></i>
+                        Participant – Le Grand Concours 2024
+                    </div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Participated in an international French competition organized by Banasthali Vidyapith, in collaboration with the Embassy of France in India and Uzbekistan State World Languages University.</li>
+                            <li>Engaged in written and oral expression tasks that promoted multilingual communication.</li>
+                            <li>Strengthened cross-cultural awareness and linguistic confidence.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="achievement-item">
+                    <div class="item-title">
+                        <i class="fas fa-users"></i>
+                        Selected – Global Action Ambassador, Global Goals Summit 2025
+                    </div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Shortlisted among the top 100 global candidates for the Global Goals Summit 2025.</li>
+                            <li>Recognized for leadership potential and contributions aligned with UN Sustainable Development Goals (SDGs).</li>
+                            <li>Though unable to attend, selection itself reflects global recognition and potential.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="achievement-item">
+                    <div class="item-title">
+                        <i class="fas fa-medal"></i>
+                        8th Rank – Girlscript Summer of Code (GSSoC) 2024
+                    </div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Ranked among the top 10 mentors (8th position) in Girlscript Summer of Code 2024.</li>
+                            <li>Guided open-source contributors, reviewed pull requests, and maintained project progress.</li>
+                            <li>Honored for active mentorship and impactful technical contributions.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="achievement-item">
+                    <div class="item-title">
+                        <i class="fas fa-rocket"></i>
+                        Lead Participant – NASA Space Apps Challenge 2024
+                    </div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Took the role of team lead in the NASA Space Apps Hackathon 2024, managing the team's development workflow.</li>
+                            <li>Worked on space-themed challenges involving real-world data and scientific problems.</li>
+                            <li>Demonstrated leadership, technical coordination, and a passion for global collaboration in STEM.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="achievement-item">
+                    <div class="item-title">
+                        <i class="fas fa-handshake"></i>
+                        Selected – BRICS Summer School Summit 2025
+                    </div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Officially selected for the BRICS Summer School Summit 2025, representing Indian youth in a multinational learning platform.</li>
+                            <li>The program focused on topics like diplomacy, sustainable development, and global policy.</li>
+                            <li>Although unable to participate, the selection marked a recognition of academic and leadership excellence.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Made by Sampada Tiwari <span class="heart">❤️</span></p>
+    </footer>
+
+    <script>
+        // Mobile hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 100;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effects and active link highlighting
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            const sections = document.querySelectorAll('.about-card');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            // Add scrolled class to navbar
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            // Highlight active section
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Scroll reveal animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 200);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards for animation
+        document.querySelectorAll('.about-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // Keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // Smooth page load
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+
+        // Initialize page with smooth entrance
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease-in-out';
+    </script>
+</body>
+</html>
